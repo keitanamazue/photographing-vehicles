@@ -13,9 +13,11 @@ export default function Home() {
       }}
     >
       <Box>
-        <Button variant="contained" sx={{ width: "100%" }}>
-          新しい車の撮影
-        </Button>
+        <Link href="take/step1" style={{ textDecoration: "none" }}>
+          <Button variant="contained" color="primary" sx={{ width: "100%" }}>
+            新しい車の撮影
+          </Button>
+        </Link>
       </Box>
       <Box mt={2}>
         <Link href="photoList" style={{ textDecoration: "none" }}>
