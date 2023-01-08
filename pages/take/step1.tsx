@@ -12,21 +12,21 @@ export default function step1() {
   const inputId = Math.random().toString(32).substring(2);
 
   const handleOnSubmit = async (e: React.SyntheticEvent): Promise<void> => {
-    e.preventDefault();
-    setIsCommentSending(true);
+    // e.preventDefault();
+    // setIsCommentSending(true);
 
-    const target = e.target as typeof e.target & {
-      comment: { value: string };
-    };
+    // const target = e.target as typeof e.target & {
+    //   comment: { value: string };
+    // };
 
-    const data = new FormData();
-    images.map((image) => {
-      data.append("images[]", image);
-    });
-    data.append("comment", target.comment?.value || "");
-    // コメントを送信
-    // const postedComment = await axios.post("/api/v1/comments", data);
-    setIsCommentSending(false);
+    // const data = new FormData();
+    // images.map((image) => {
+    //   data.append("images[]", image);
+    // });
+    // data.append("comment", target.comment?.value || "");
+    // // コメントを送信
+    // // const postedComment = await axios.post("/api/v1/comments", data);
+    // setIsCommentSending(false);
 
     alert("送信完了しました。");
   };
