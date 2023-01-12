@@ -52,7 +52,7 @@ export default function step1() {
         >
           {/* @ts-ignore */}
           {() => (
-            <div>
+            <>
               <div
                 style={{
                   position: "absolute",
@@ -80,7 +80,7 @@ export default function step1() {
               >
                 キャプチャ
               </button>
-            </div>
+            </>
           )}
         </Webcam>
       </div>

@@ -87,9 +87,6 @@ export const Header = () => {
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
-          <Typography variant="h6" noWrap sx={{ flexGrow: 1 }} component="div">
-            Persistent drawer
-          </Typography>
           <IconButton
             color="inherit"
             aria-label="open drawer"
