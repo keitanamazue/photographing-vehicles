@@ -7,10 +7,13 @@ export default function step2() {
   const camera = useRef(null);
   const [image, setImage] = useState(null);
 
+  console.log({ image });
+
   return (
     <div>
       <Camera
         ref={camera}
+        facingMode="environment"
         errorMessages={{
           noCameraAccessible: undefined,
           permissionDenied: undefined,
@@ -21,7 +24,7 @@ export default function step2() {
       <div
         style={{
           position: "absolute",
-          top: "50%",
+          top: "55%",
           left: "50%",
           transform: "translateY(-50%) translateX(-50%) rotate(90deg)",
           backgroundImage: "url(/guide_01.png)",
