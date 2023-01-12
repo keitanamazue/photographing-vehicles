@@ -1,109 +1,107 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { useState } from "react";
-import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import CancelIcon from "@mui/icons-material/Cancel";
+import { useRef, useState, useCallback, useEffect } from "react";
+import Webcam from "react-webcam";
 
 export default function step1() {
-  const [isCommentSending, setIsCommentSending] = useState(false);
-  const [images, setImages] = useState<File[]>([]);
-  const maxImagesUpload = 4; // 画像を最大4枚まで選択・アップロード
-  const [commentText, setCommentText] = useState<string>("");
-  const inputId = Math.random().toString(32).substring(2);
+  const [isCaptureEnable, setCaptureEnable] = useState<boolean>(false);
+  const webcamRef = useRef<Webcam>(null);
+  const [url, setUrl] = useState<string | null>(null);
+  const capture = useCallback(() => {
+    const imageSrc = webcamRef.current?.getScreenshot();
+    if (imageSrc) {
+      setUrl(imageSrc);
+    }
+  }, [webcamRef]);
 
-  const handleOnSubmit = async (e: React.SyntheticEvent): Promise<void> => {
-    // e.preventDefault();
-    // setIsCommentSending(true);
-
-    // const target = e.target as typeof e.target & {
-    //   comment: { value: string };
-    // };
-
-    // const data = new FormData();
-    // images.map((image) => {
-    //   data.append("images[]", image);
-    // });
-    // data.append("comment", target.comment?.value || "");
-    // // コメントを送信
-    // // const postedComment = await axios.post("/api/v1/comments", data);
-    // setIsCommentSending(false);
-
-    alert("送信完了しました。");
+  const getWindowDimensions = () => {
+    if (typeof window === "undefined") return;
+    const { innerWidth: width, innerHeight: height } = window;
+    return {
+      width,
+      height,
+    };
   };
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
+  useEffect(() => {
+    const onResize = () => {
+      setWindowDimensions(getWindowDimensions());
+    };
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
 
-  const handleOnAddImage = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!e.target.files) return;
-    setImages([...images, ...e.target.files]);
-  };
+  console.log({ windowDimensions });
 
-  const handleOnRemoveImage = (index: number) => {
-    // 選択した画像は削除可能
-    const newImages = [...images];
-    newImages.splice(index, 1);
-    setImages(newImages);
+  const videoConstraints = {
+    width: windowDimensions?.width,
+    height: windowDimensions?.height,
   };
 
   return (
-    <form action="" onSubmit={(e) => handleOnSubmit(e)}>
-      {/* 1つのボタンで画像を選択する */}
-      <label htmlFor={inputId}>
-        <Button
-          variant="contained"
-          disabled={images.length >= maxImagesUpload}
-          component="span"
+    <>
+      <div style={{ position: "relative" }}>
+        <Webcam
+          audio={false}
+          width={windowDimensions?.width}
+          height={windowDimensions?.height}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          videoConstraints={videoConstraints}
         >
-          画像追加
-        </Button>
-        <input
-          id={inputId}
-          type="file"
-          multiple
-          accept="image/*,.png,.jpg,.jpeg,.gif"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            handleOnAddImage(e)
-          }
-          style={{ display: "none" }}
-        />
-      </label>
-      {/* 画像を選択したら選択中のすべての画像のプレビューを表示 */}
-      {images.map((image, i) => (
-        <div
-          key={i}
-          style={{
-            position: "relative",
-            width: "40%",
-          }}
-        >
-          <IconButton
-            aria-label="delete image"
-            style={{
-              position: "absolute",
-              top: 10,
-              left: 10,
-              color: "#aaa",
-            }}
-            onClick={() => handleOnRemoveImage(i)}
-          >
-            <CancelIcon />
-          </IconButton>
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={URL.createObjectURL(image)}
-            style={{
-              width: "100%",
-            }}
-            alt="step1"
-          />
-        </div>
-      ))}
-      <Button
-        variant="contained"
-        type="submit"
-        disableElevation
-        disabled={!commentText}
-      >
-        投稿
-      </Button>
-    </form>
+          {/* @ts-ignore */}
+          {() => (
+            <div>
+              <div
+                style={{
+                  position: "absolute",
+                  top: "50%",
+                  left: "50%",
+                  transform: "translateY(-50%) translateX(-50%) rotate(90deg)",
+                  backgroundImage: "url(/guide_01.png)",
+                  backgroundPosition: "center",
+                  backgroundSize: "cover",
+                  backgroundRepeat: "no-repeat",
+                  width: "100%",
+                  height: "50%",
+                  margin: "0 auto",
+                }}
+              />
+              <button
+                style={{
+                  position: "absolute",
+                  bottom: "10px",
+                  left: "20px",
+                  width: "120px",
+                  height: "0px",
+                }}
+                onClick={capture}
+              >
+                キャプチャ
+              </button>
+            </div>
+          )}
+        </Webcam>
+      </div>
+
+      {url && (
+        <>
+          <div>
+            <button
+              onClick={() => {
+                setUrl(null);
+              }}
+            >
+              削除
+            </button>
+          </div>
+          <div>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={url} alt="Screenshot" />
+          </div>
+        </>
+      )}
+    </>
   );
 }
