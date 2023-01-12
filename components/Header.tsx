@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
 import Box from "@mui/material/Box";
@@ -94,7 +95,11 @@ export const Header = () => {
             onClick={handleDrawerOpen}
             sx={{ ...(open && { display: "none" }) }}
           >
-            <MenuIcon />
+            <img
+              src="/option.png"
+              style={{ width: "30px", height: "30px" }}
+              alt="menu"
+            />
           </IconButton>
         </Toolbar>
       </AppBar>
@@ -122,20 +127,7 @@ export const Header = () => {
         </DrawerHeader>
         <Divider />
         <List>
-          {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
+          {["車種の選択", "撮影履歴"].map((text, index) => (
             <ListItem key={text} disablePadding>
               <ListItemButton>
                 <ListItemIcon>
