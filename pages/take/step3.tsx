@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState, useRef } from "react";
 import { Camera } from "react-camera-pro";
 
-export default function step1() {
+export default function step3() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
   const [image, setImage] = useState(null);
@@ -13,7 +13,7 @@ export default function step1() {
   const NextTake = () => {
     /* @ts-ignore */
     setImage(camera.current.takePhoto());
-    router.push("/take/step2");
+    router.push("/photoList");
   };
 
   return (

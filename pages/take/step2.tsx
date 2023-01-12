@@ -1,4 +1,5 @@
 /* eslint-disable react-hooks/rules-of-hooks */
+import { useRouter } from "next/router";
 import React, { useState, useRef } from "react";
 import { Camera } from "react-camera-pro";
 
@@ -7,7 +8,13 @@ export default function step2() {
   const camera = useRef(null);
   const [image, setImage] = useState(null);
 
-  console.log({ image });
+  const router = useRouter();
+
+  const NextTake = () => {
+    /* @ts-ignore */
+    setImage(camera.current.takePhoto());
+    router.push("/take/step3");
+  };
 
   return (
     <div>
@@ -32,7 +39,7 @@ export default function step2() {
           backgroundSize: "cover",
           backgroundRepeat: "no-repeat",
           width: "100%",
-          height: "50%",
+          height: "45%",
           margin: "0 auto",
         }}
       />
@@ -40,16 +47,14 @@ export default function step2() {
         style={{
           position: "absolute",
           bottom: "10px",
-          left: "20px",
+          left: "50%",
+          transform: "translateY(-50%) translateX(-50%)",
           width: "120px",
-          height: "0px",
+          height: "30px",
         }}
+        onClick={() => NextTake()}
       >
-        キャプチャ
-      </button>
-      {/* @ts-ignore */}
-      <button onClick={() => setImage(camera.current.takePhoto())}>
-        Take photo
+        撮影
       </button>
     </div>
   );
