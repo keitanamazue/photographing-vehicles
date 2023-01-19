@@ -14,11 +14,19 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
+import InboxIcon from "@mui/icons-material/MoveToInbox";
+import MailIcon from "@mui/icons-material/Mail";
+import ListSubheader from "@mui/material/ListSubheader";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
+import Collapse from "@mui/material/Collapse";
+import DraftsIcon from "@mui/icons-material/Drafts";
+import SendIcon from "@mui/icons-material/Send";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+import StarBorder from "@mui/icons-material/StarBorder";
+import { open } from "fs";
 
 const drawerWidth = 240;
 
@@ -74,6 +82,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
 export const Header = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [carTypeOpen, setCarTypeOpen] = React.useState(false);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -82,6 +91,24 @@ export const Header = () => {
   const handleDrawerClose = () => {
     setOpen(false);
   };
+
+  const handleOpenCarType = () => {
+    setCarTypeOpen(!carTypeOpen);
+  };
+
+  const cars = [
+    "軽",
+    "軽ハイルーフ",
+    "軽SUV",
+    "軽バン・軽ワゴン",
+    "軽トラック",
+    "コンパクト",
+    "セダン",
+    "ミニバン",
+    "SUV",
+    "ステーションワゴン",
+    "ハッチバック",
+  ];
 
   return (
     <Box sx={{ display: "flex" }}>
@@ -126,17 +153,27 @@ export const Header = () => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {["車種の選択", "撮影履歴"].map((text, index) => (
-            <ListItem key={text} disablePadding>
-              <ListItemButton>
-                <ListItemIcon>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} />
-              </ListItemButton>
-            </ListItem>
-          ))}
+        <List
+          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
+        >
+          <ListItemButton onClick={handleOpenCarType}>
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary="車種選択" />
+            {carTypeOpen ? <ExpandLess /> : <ExpandMore />}
+          </ListItemButton>
+          <Collapse in={carTypeOpen} timeout="auto" unmountOnExit>
+            {cars.map((car, index) => {
+              return (
+                <List component="div" disablePadding key={index}>
+                  <ListItemButton sx={{ pl: 4 }}>
+                    <ListItemText primary={car} />
+                  </ListItemButton>
+                </List>
+              );
+            })}
+          </Collapse>
         </List>
       </Drawer>
     </Box>
