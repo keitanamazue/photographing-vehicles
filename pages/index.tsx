@@ -13,7 +13,7 @@ export default function Home() {
       }}
     >
       <Box>
-        <Link href="take/step1" style={{ textDecoration: "none" }}>
+        <Link href="/take/selectCar" style={{ textDecoration: "none" }}>
           <Button variant="contained" color="primary" sx={{ width: "100%" }}>
             新しい車の撮影
           </Button>
@@ -21,7 +21,7 @@ export default function Home() {
       </Box>
       <Box mt={2}>
         <Link href="photoList" style={{ textDecoration: "none" }}>
-          <Button variant="contained" color="secondary" sx={{ width: "100%" }}>
+          <Button variant="contained" color="primary" sx={{ width: "100%" }}>
             既存の車の再撮影
           </Button>
         </Link>

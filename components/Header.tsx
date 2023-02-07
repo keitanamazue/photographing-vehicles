@@ -79,6 +79,8 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-start",
 }));
 
+console.log({ DrawerHeader });
+
 export const Header = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -102,19 +104,27 @@ export const Header = () => {
     "軽SUV",
     "軽バン・軽ワゴン",
     "軽トラック",
-    "コンパクト",
-    "セダン",
-    "ミニバン",
-    "SUV",
-    "ステーションワゴン",
-    "ハッチバック",
+    // "コンパクト",
+    // "セダン",
+    // "ミニバン",
+    // "SUV",
+    // "ステーションワゴン",
+    // "ハッチバック",
   ];
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
-        <Toolbar>
+      <Box
+        sx={{
+          position: "absolute",
+          zIndex: 100,
+          bottom: "20px",
+          right: "0",
+          transform: "rotate(90deg)",
+        }}
+      >
+        <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -124,13 +134,13 @@ export const Header = () => {
           >
             <img
               src="/option.png"
-              style={{ width: "30px", height: "30px" }}
+              style={{ width: "50px", height: "50px" }}
               alt="menu"
             />
           </IconButton>
         </Toolbar>
-      </AppBar>
-      <DrawerHeader />
+      </Box>
+
       <Drawer
         sx={{
           width: drawerWidth,
@@ -153,9 +163,7 @@ export const Header = () => {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List
-          sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
-        >
+        <List sx={{ width: "100%", maxWidth: 360 }}>
           <ListItemButton onClick={handleOpenCarType}>
             <ListItemIcon>
               <InboxIcon />

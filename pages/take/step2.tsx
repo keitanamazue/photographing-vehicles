@@ -2,6 +2,7 @@
 import { useRouter } from "next/router";
 import React, { useState, useRef } from "react";
 import { Camera } from "react-camera-pro";
+import { Header } from "../../components/Header";
 
 export default function step2() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -18,6 +19,7 @@ export default function step2() {
 
   return (
     <div>
+      <Header />
       <Camera
         ref={camera}
         facingMode="environment"
@@ -28,6 +30,36 @@ export default function step2() {
           canvas: undefined,
         }}
       />
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          position: "absolute",
+          top: "28%",
+          left: "15%",
+          transform: "translateY(-50%) translateX(-50%) rotate(90deg)",
+        }}
+      >
+        <p
+          style={{
+            background: "#c9c9c9",
+            width: "fit-content",
+            padding: "5px",
+            marginBottom: "3px",
+          }}
+        >
+          2枚目
+        </p>
+        <p
+          style={{
+            background: "#c9c9c9",
+            width: "fit-content",
+            padding: "5px",
+          }}
+        >
+          ガイドの中に車を収めて撮影してください
+        </p>
+      </div>
       <div
         style={{
           position: "absolute",
@@ -49,12 +81,24 @@ export default function step2() {
           bottom: "10px",
           left: "50%",
           transform: "translateY(-50%) translateX(-50%)",
-          width: "120px",
-          height: "30px",
+          width: "70px",
+          height: "70px",
         }}
         onClick={() => NextTake()}
       >
-        撮影
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          style={{
+            zIndex: 100,
+            position: "absolute",
+            left: "50%",
+            transform: "translateY(-50%) translateX(-50%)",
+            width: "100%",
+            height: "100%",
+          }}
+          src="/record_button.png"
+          alt="record_button"
+        />
       </button>
     </div>
   );
