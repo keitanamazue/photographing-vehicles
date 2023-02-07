@@ -13,35 +13,35 @@ export default function selectCar() {
       }}
     >
       <Box mt={2}>
-        <Link href="photoList" style={{ textDecoration: "none" }}>
+        <Link href="/take/step1" style={{ textDecoration: "none" }}>
           <Button variant="contained" color="primary" sx={{ width: "100%" }}>
             軽
           </Button>
         </Link>
       </Box>
       <Box mt={2}>
-        <Link href="photoList" style={{ textDecoration: "none" }}>
+        <Link href="/take/step1" style={{ textDecoration: "none" }}>
           <Button variant="contained" color="primary" sx={{ width: "100%" }}>
             軽ハイルーフ
           </Button>
         </Link>
       </Box>
       <Box mt={2}>
-        <Link href="photoList" style={{ textDecoration: "none" }}>
+        <Link href="/take/step1" style={{ textDecoration: "none" }}>
           <Button variant="contained" color="primary" sx={{ width: "100%" }}>
             軽SUV
           </Button>
         </Link>
       </Box>
       <Box mt={2}>
-        <Link href="photoList" style={{ textDecoration: "none" }}>
+        <Link href="/take/step1" style={{ textDecoration: "none" }}>
           <Button variant="contained" color="primary" sx={{ width: "100%" }}>
             軽バン・軽ワゴン
           </Button>
         </Link>
       </Box>
       <Box mt={2}>
-        <Link href="photoList" style={{ textDecoration: "none" }}>
+        <Link href="/take/step1" style={{ textDecoration: "none" }}>
           <Button variant="contained" color="primary" sx={{ width: "100%" }}>
             軽トラック
           </Button>
