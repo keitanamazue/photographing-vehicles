@@ -4,20 +4,32 @@ import React, { useState, useRef } from "react";
 import { Camera } from "react-camera-pro";
 import { Header } from "../../components/Header";
 
-export default function step2() {
+export default function Edit() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
   const router = useRouter();
 
-  const NextTake = () => {
+  const editDone = () => {
     if (!camera.current) return;
     /* @ts-ignore */
     const image: string = camera.current.takePhoto();
+
+    const newImageList = router.query;
+
+    Object.keys(router.query).forEach((key) => {
+      if (key === router.query.editIndex) {
+        newImageList[key] = image;
+        return;
+      }
+      newImageList[key] = router.query[key];
+    });
     router.push({
-      pathname: "/take/step3",
-      query: { 0: router.query[0], 1: image },
+      pathname: "/take/stepLast",
+      query: { ...newImageList },
     });
   };
+
+  console.log(typeof router.query.editIndex);
 
   return (
     <div>
@@ -50,7 +62,7 @@ export default function step2() {
             marginBottom: "3px",
           }}
         >
-          2枚目
+          {Number(router.query.editIndex) + 1}枚目
         </p>
         <p
           style={{
@@ -86,7 +98,7 @@ export default function step2() {
           width: "70px",
           height: "70px",
         }}
-        onClick={() => NextTake()}
+        onClick={() => editDone()}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

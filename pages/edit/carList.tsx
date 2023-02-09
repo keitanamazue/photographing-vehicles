@@ -1,52 +1,37 @@
 import React, { useState } from "react";
-import Grid from "@mui/material/Unstable_Grid2";
 import { Box, Button, Fab, Typography } from "@mui/material";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogTitle from "@mui/material/DialogTitle";
-import OutboxIcon from "@mui/icons-material/Outbox";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
-import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import { useRouter } from "next/router";
 
 interface Column {
   id: "kind" | "photo" | "shooting_date" | "button";
   label: string;
   minWidth?: number;
-  align?: "right";
-  format?: (value: number) => string;
+  align?: "center";
 }
 
 const columns: readonly Column[] = [
-  { id: "kind", label: "車種", minWidth: 170 },
-  { id: "photo", label: "写真", minWidth: 100 },
+  { id: "kind", label: "車種", minWidth: 170, align: "center" },
+  { id: "photo", label: "写真", minWidth: 100, align: "center" },
   {
     id: "shooting_date",
     label: "撮影日",
     minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toLocaleString("en-US"),
+    align: "center",
   },
   {
     id: "button",
     label: "",
     minWidth: 170,
-    align: "right",
-    format: (value: number) => value.toFixed(2),
+    align: "center",
   },
 ];
-
-interface Data {
-  kind: string;
-  photo: string;
-  shooting_date: string;
-  button: string;
-}
 
 const rows = [
   {
@@ -66,19 +51,20 @@ const rows = [
 ];
 
 export default function Index() {
-  const photo = [1, 1, 1];
-  const [open, setOpen] = useState(false);
+  // eslint-disable-next-line react-hooks/rules-of-hooks
+  const router = useRouter();
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const NavigatePhotoList = () => {
+    router.push({
+      pathname: "/edit/photoList",
+    });
   };
 
   return (
     <Box mt={2}>
+      <Typography variant="h5" component="h2" gutterBottom align="center">
+        車の選択
+      </Typography>
       <Paper sx={{ width: "100%", overflow: "hidden" }}>
         <TableContainer sx={{ maxHeight: 440 }}>
           <Table stickyHeader aria-label="sticky table">
@@ -87,7 +73,7 @@ export default function Index() {
                 {columns.map((column) => (
                   <TableCell
                     key={column.id}
-                    align={column.align}
+                    align="center"
                     style={{ minWidth: column.minWidth }}
                   >
                     {column.label}
@@ -120,7 +106,12 @@ export default function Index() {
                           {column.id === "button" && (
                             // eslint-disable-next-line @next/next/no-img-element
                             <Box>
-                              <Button variant="contained">選択</Button>
+                              <Button
+                                variant="contained"
+                                onClick={() => NavigatePhotoList()}
+                              >
+                                選択
+                              </Button>
                             </Box>
                           )}
                         </TableCell>

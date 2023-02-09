@@ -15,7 +15,7 @@ export default function step1() {
     const image: string = camera.current.takePhoto();
     router.push({
       pathname: "/take/step2",
-      query: { image1: image },
+      query: { 0: image },
     });
   };
 

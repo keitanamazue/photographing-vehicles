@@ -1,17 +1,9 @@
 import { useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box, Button, Fab, Typography } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogTitle from "@mui/material/DialogTitle";
 import { useRouter } from "next/router";
-
-type ImageList = {
-  image1: string | undefined;
-  image2: string | undefined;
-  image3: string | undefined;
-};
+import SendButton from "../../components/SendButton";
+import { ImageList } from "../../utils/utils";
 
 export default function stepLast() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -26,10 +18,22 @@ export default function stepLast() {
     setOpen(false);
   };
 
+  const editImage = (index: number) => {
+    router.push({
+      pathname: "/take/edit",
+      query: {
+        0: router.query[0],
+        1: router.query[1],
+        2: router.query[2],
+        editIndex: index,
+      },
+    });
+  };
+
   const imageList: ImageList = {
-    image1: router.query.image1 as string,
-    image2: router.query.image2 as string,
-    image3: router.query.image3 as string,
+    0: router.query[0] as string,
+    1: router.query[1] as string,
+    2: router.query[2] as string,
   };
 
   // const imageList: ImageList = {
@@ -41,7 +45,7 @@ export default function stepLast() {
   return (
     <Box mt={2}>
       <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        {Object.keys(imageList).map((key, index) => {
+        {Object.keys(imageList).map((key: number | string, index) => {
           if (imageList[key as keyof typeof imageList]) {
             return (
               <Grid xs={6} sm={3} md={3} key={index}>
@@ -59,6 +63,23 @@ export default function stepLast() {
                   <Box
                     sx={{
                       position: "absolute",
+                      top: "0",
+                      left: "1px",
+                      width: "80px",
+                      height: "30px",
+                      zIndex: 100,
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "gray",
+                      opacity: 0.9,
+                    }}
+                  >
+                    <Typography>{index + 1}枚目</Typography>
+                  </Box>
+                  <Box
+                    sx={{
+                      position: "absolute",
                       bottom: "23px",
                       right: "10px",
                       width: "60px",
@@ -66,7 +87,11 @@ export default function stepLast() {
                       zIndex: 100,
                     }}
                   >
-                    <Button variant="contained" size="small">
+                    <Button
+                      variant="contained"
+                      size="small"
+                      onClick={() => editImage(index)}
+                    >
                       再撮影
                     </Button>
                   </Box>
@@ -76,29 +101,11 @@ export default function stepLast() {
           }
         })}
       </Grid>
-      <Box sx={{ position: "fixed", bottom: "30px", right: "30px" }}>
-        <Fab color="primary" aria-label="add" onClick={handleClickOpen}>
-          <AddIcon />
-        </Fab>
-      </Box>
-      <Dialog
+      <SendButton
+        handleClickOpen={handleClickOpen}
+        handleClose={handleClose}
         open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          画像をアップロードしてよろしいですか？
-        </DialogTitle>
-        <DialogActions>
-          <Button onClick={handleClose} color="secondary">
-            キャンセル
-          </Button>
-          <Button onClick={handleClose} autoFocus variant="contained">
-            送信
-          </Button>
-        </DialogActions>
-      </Dialog>
+      />
     </Box>
   );
 }

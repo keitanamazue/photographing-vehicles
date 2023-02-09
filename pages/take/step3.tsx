@@ -7,7 +7,6 @@ import { Header } from "../../components/Header";
 export default function step2() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
-  const [image, setImage] = useState(null);
 
   const router = useRouter();
 
@@ -18,9 +17,9 @@ export default function step2() {
     router.push({
       pathname: "/take/stepLast",
       query: {
-        image1: router.query.image1,
-        image2: router.query.image2,
-        image3: image,
+        0: router.query[0],
+        1: router.query[1],
+        2: image,
       },
     });
   };

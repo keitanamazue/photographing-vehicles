@@ -20,7 +20,7 @@ export default function Home() {
         </Link>
       </Box>
       <Box mt={2}>
-        <Link href="photoList" style={{ textDecoration: "none" }}>
+        <Link href="edit/carList" style={{ textDecoration: "none" }}>
           <Button variant="contained" color="primary" sx={{ width: "100%" }}>
             既存の車の再撮影
           </Button>
