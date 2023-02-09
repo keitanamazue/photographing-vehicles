@@ -5,12 +5,13 @@ import { Box, Button, Fab, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import SendButton from "../../components/SendButton";
 import BackButton from "../../components/backButton";
+import { ImageList } from "../../utils/utils";
 
 export default function stepLast() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [imageList, setImageList] = useState({
+  const [imageList, setImageList] = useState<ImageList>({
     0: "https://upload.wikimedia.org/wikipedia/commons/a/aa/Suzuki_Carry_KX_4WD.JPG",
     1: "https://upload.wikimedia.org/wikipedia/commons/a/aa/Suzuki_Carry_KX_4WD.JPG",
     2: "https://upload.wikimedia.org/wikipedia/commons/a/aa/Suzuki_Carry_KX_4WD.JPG",
@@ -48,7 +49,7 @@ export default function stepLast() {
   useEffect(() => {
     //ここで、渡ってきたqueryのidでapi通信を行い、画像のurlを取得する
     if (Object.keys(router.query).length) {
-      setImageList(router.query);
+      setImageList(router.query as ImageList);
     }
   }, [router.query]);
 
