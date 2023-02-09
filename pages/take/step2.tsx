@@ -11,6 +11,8 @@ export default function step2() {
 
   const router = useRouter();
 
+  console.log(router.query);
+
   const NextTake = () => {
     /* @ts-ignore */
     setImage(camera.current.takePhoto());

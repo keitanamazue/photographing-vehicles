@@ -1,20 +1,22 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter } from "next/router";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Camera } from "react-camera-pro";
 import { Header } from "../../components/Header";
 
 export default function step1() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
-  const [image, setImage] = useState(null);
+  const [image, setImage] = useState("");
 
   const router = useRouter();
 
   const NextTake = () => {
+    if (!camera.current) return;
     /* @ts-ignore */
     setImage(camera.current.takePhoto());
-    router.push("/take/step2");
+    console.log({ image });
+    router.push({ pathname: "/take/step2", query: { image } });
   };
 
   return (

@@ -9,7 +9,7 @@ export default function Layout(props: { children: ReactElement }) {
     <>
       <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Container maxWidth="xs">
+        <Container maxWidth="xl">
           <main>{props.children}</main>
         </Container>
       </ThemeProvider>
