@@ -1,21 +1,29 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import { useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box, Button, Fab, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import SendButton from "../../components/SendButton";
 import { ImageList } from "../../utils/utils";
+import BackButton from "../../components/BackButton";
 
 export default function stepLast() {
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const router = useRouter();
-  // eslint-disable-next-line react-hooks/rules-of-hooks
   const [open, setOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
   };
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleConfirmOpen = () => {
+    setConfirmOpen(true);
+  };
+  const handleConfirmClose = () => {
+    setConfirmOpen(false);
   };
 
   const editImage = (index: number) => {
@@ -30,17 +38,17 @@ export default function stepLast() {
     });
   };
 
-  const imageList: ImageList = {
-    0: router.query[0] as string,
-    1: router.query[1] as string,
-    2: router.query[2] as string,
-  };
-
   // const imageList: ImageList = {
-  //   image1: "https://picsum.photos/536/354",
-  //   image2: "https://picsum.photos/536/354",
-  //   image3: "https://picsum.photos/536/354",
+  //   0: router.query[0] as string,
+  //   1: router.query[1] as string,
+  //   2: router.query[2] as string,
   // };
+
+  const imageList: ImageList = {
+    1: "https://picsum.photos/536/354",
+    2: "https://picsum.photos/536/354",
+    3: "https://picsum.photos/536/354",
+  };
 
   return (
     <Box mt={2}>
@@ -101,11 +109,21 @@ export default function stepLast() {
           }
         })}
       </Grid>
-      <SendButton
-        handleClickOpen={handleClickOpen}
-        handleClose={handleClose}
-        open={open}
-      />
+      <Box>
+        <BackButton
+          handleConfirmOpen={handleConfirmOpen}
+          handleConfirmClose={handleConfirmClose}
+          confirmOpen={confirmOpen}
+          text="車種選択して撮り直す"
+          mText="戻ると撮影した写真は破棄されます。よろしいですか？"
+          bLink="/take/selectCar"
+        />
+        <SendButton
+          handleClickOpen={handleClickOpen}
+          handleClose={handleClose}
+          open={open}
+        />
+      </Box>
     </Box>
   );
 }

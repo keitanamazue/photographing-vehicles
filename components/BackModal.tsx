@@ -9,8 +9,10 @@ import { useRouter } from "next/router";
 function BackModal(props: {
   handleConfirmClose: () => void;
   confirmOpen: boolean;
+  mText: string;
+  bLink: string;
 }) {
-  const { handleConfirmClose, confirmOpen } = props;
+  const { handleConfirmClose, confirmOpen, mText, bLink } = props;
 
   const router = useRouter();
 
@@ -21,15 +23,13 @@ function BackModal(props: {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">
-        戻ると変更した写真は破棄されます。よろしいですか？
-      </DialogTitle>
+      <DialogTitle id="alert-dialog-title">{mText}</DialogTitle>
       <DialogActions>
         <Button onClick={handleConfirmClose} color="secondary">
           いいえ
         </Button>
         <Button
-          onClick={() => router.push("/edit/carList")}
+          onClick={() => router.push(bLink)}
           autoFocus
           variant="contained"
         >

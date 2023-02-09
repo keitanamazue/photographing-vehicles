@@ -121,6 +121,9 @@ export default function stepLast() {
           handleConfirmOpen={handleConfirmOpen}
           handleConfirmClose={handleConfirmClose}
           confirmOpen={confirmOpen}
+          text="写真選択に戻る"
+          mText="戻ると変更した写真は破棄されます。よろしいですか？"
+          bLink="/edit/carList"
         />
         <SendButton
           handleClickOpen={handleClickOpen}

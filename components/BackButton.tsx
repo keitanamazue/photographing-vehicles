@@ -5,8 +5,18 @@ function BackButton(props: {
   handleConfirmOpen: () => void;
   handleConfirmClose: () => void;
   confirmOpen: boolean;
+  text: string;
+  mText: string;
+  bLink: string;
 }) {
-  const { handleConfirmOpen, handleConfirmClose, confirmOpen } = props;
+  const {
+    handleConfirmOpen,
+    handleConfirmClose,
+    confirmOpen,
+    text,
+    mText,
+    bLink,
+  } = props;
   return (
     <Box
       sx={{
@@ -22,11 +32,13 @@ function BackButton(props: {
         onClick={() => handleConfirmOpen()}
         // onClick={() => router.push("/edit/carList")}
       >
-        写真選択に戻る
+        {text}
       </Button>
       <BackModal
         handleConfirmClose={handleConfirmClose}
         confirmOpen={confirmOpen}
+        mText={mText}
+        bLink={bLink}
       />
     </Box>
   );
