@@ -56,7 +56,7 @@ export default function Index() {
 
   const NavigatePhotoList = () => {
     router.push({
-      pathname: "/edit/photoList",
+      pathname: "/edit/select",
     });
   };
 

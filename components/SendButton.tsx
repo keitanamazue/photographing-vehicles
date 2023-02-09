@@ -10,10 +10,12 @@ function SendButton(props: {
   const { handleClickOpen, handleClose, open } = props;
   return (
     <Box>
-      <Box sx={{ position: "fixed", bottom: "30px", right: "30px" }}>
-        <Fab color="primary" aria-label="add" onClick={handleClickOpen}>
-          <OutboxIcon />
-        </Fab>
+      <Box
+        sx={{ position: "fixed", bottom: "30px", right: "10px", zIndex: 10000 }}
+      >
+        <Button variant="contained" size="small" onClick={handleClickOpen}>
+          決定してサーバーに送信
+        </Button>
       </Box>
       <SendModal handleClose={handleClose} open={open} />
     </Box>

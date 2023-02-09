@@ -9,6 +9,8 @@ export default function Edit() {
   const camera = useRef(null);
   const router = useRouter();
 
+  console.log(router.query);
+
   const editDone = () => {
     if (!camera.current) return;
     /* @ts-ignore */
@@ -21,13 +23,12 @@ export default function Edit() {
       }
       newImageList[key] = router.query[key];
     });
+    delete newImageList.editIndex;
     router.push({
-      pathname: "/take/stepLast",
+      pathname: "/edit/select",
       query: { ...newImageList },
     });
   };
-
-  console.log(typeof router.query.editIndex);
 
   return (
     <div>
