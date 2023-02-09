@@ -12,9 +12,17 @@ export default function step2() {
   const router = useRouter();
 
   const NextTake = () => {
+    if (!camera.current) return;
     /* @ts-ignore */
-    setImage(camera.current.takePhoto());
-    router.push("/photoList");
+    const image: string = camera.current.takePhoto();
+    router.push({
+      pathname: "/take/stepLast",
+      query: {
+        image1: router.query.image1,
+        image2: router.query.image2,
+        image3: image,
+      },
+    });
   };
 
   return (

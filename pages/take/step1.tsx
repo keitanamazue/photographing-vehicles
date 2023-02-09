@@ -7,16 +7,16 @@ import { Header } from "../../components/Header";
 export default function step1() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
-  const [image, setImage] = useState("");
-
   const router = useRouter();
 
   const NextTake = () => {
     if (!camera.current) return;
     /* @ts-ignore */
-    setImage(camera.current.takePhoto());
-    console.log({ image });
-    router.push({ pathname: "/take/step2", query: { image } });
+    const image: string = camera.current.takePhoto();
+    router.push({
+      pathname: "/take/step2",
+      query: { image1: image },
+    });
   };
 
   return (
