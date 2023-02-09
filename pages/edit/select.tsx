@@ -4,8 +4,9 @@ import Grid from "@mui/material/Unstable_Grid2";
 import { Box, Button, Fab, Typography } from "@mui/material";
 import { useRouter } from "next/router";
 import SendButton from "../../components/SendButton";
-import BackButton from "../../components/backButton";
+
 import { ImageList } from "../../utils/utils";
+import BackButton from "../../components/BackButton";
 
 export default function stepLast() {
   const router = useRouter();
