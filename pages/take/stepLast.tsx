@@ -38,17 +38,17 @@ export default function stepLast() {
     });
   };
 
-  // const imageList: ImageList = {
-  //   0: router.query[0] as string,
-  //   1: router.query[1] as string,
-  //   2: router.query[2] as string,
-  // };
-
   const imageList: ImageList = {
-    1: "https://picsum.photos/536/354",
-    2: "https://picsum.photos/536/354",
-    3: "https://picsum.photos/536/354",
+    0: router.query[0] as string,
+    1: router.query[1] as string,
+    2: router.query[2] as string,
   };
+
+  // const imageList: ImageList = {
+  //   1: "https://picsum.photos/536/354",
+  //   2: "https://picsum.photos/536/354",
+  //   3: "https://picsum.photos/536/354",
+  // };
 
   return (
     <Box mt={2}>
