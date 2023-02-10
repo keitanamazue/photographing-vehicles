@@ -3,7 +3,7 @@ import { Box, Button, Card, CardContent } from "@mui/material";
 import Link from "next/link";
 
 const CARS = [
-  { kind: "軽", link: "/take/step1" },
+  { kind: "軽", link: "/take/light/normal/step1" },
   { kind: "軽ハイルーフ", link: "/take/step1" },
   { kind: "軽SUV", link: "/take/step1" },
   { kind: "軽バン・軽ワゴン", link: "/take/step1" },
