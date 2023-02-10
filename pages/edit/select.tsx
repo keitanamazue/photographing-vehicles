@@ -38,13 +38,13 @@ export default function stepLast() {
   };
 
   const editImage = (index: number) => {
-    router.push({
-      pathname: "/edit/edit",
-      query: {
-        ...imageList,
-        editIndex: index,
-      },
-    });
+    // router.push({
+    //   pathname: "/edit/edit",
+    //   query: {
+    //     ...imageList,
+    //     editIndex: index,
+    //   },
+    // });
   };
 
   useEffect(() => {

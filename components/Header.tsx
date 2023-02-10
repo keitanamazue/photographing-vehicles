@@ -14,7 +14,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
+import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import MailIcon from "@mui/icons-material/Mail";
 import ListSubheader from "@mui/material/ListSubheader";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -27,6 +27,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
 import { open } from "fs";
+import router from "next/router";
 
 const drawerWidth = 240;
 
@@ -98,12 +99,16 @@ export const Header = () => {
     setCarTypeOpen(!carTypeOpen);
   };
 
+  const navigateTakeCar = (path: string) => {
+    router.push(path);
+  };
+
   const cars = [
-    "軽",
-    "軽ハイルーフ",
-    "軽SUV",
-    "軽バン・軽ワゴン",
-    "軽トラック",
+    { kind: "軽", path: "/take/light/normal/step1" },
+    { kind: "軽ハイルーフ", path: "/take/light/highRoof/step1" },
+    { kind: "軽SUV", path: "/take/light/suv/step1" },
+    { kind: "軽バン・軽ワゴン", path: "/take/light/ban_wagon/step1" },
+    { kind: "軽トラック", path: "/take/light/track/step1" },
     // "コンパクト",
     // "セダン",
     // "ミニバン",
@@ -166,7 +171,7 @@ export const Header = () => {
         <List sx={{ width: "100%", maxWidth: 360 }}>
           <ListItemButton onClick={handleOpenCarType}>
             <ListItemIcon>
-              <InboxIcon />
+              <DirectionsCarIcon />
             </ListItemIcon>
             <ListItemText primary="車種選択" />
             {carTypeOpen ? <ExpandLess /> : <ExpandMore />}
@@ -175,8 +180,11 @@ export const Header = () => {
             {cars.map((car, index) => {
               return (
                 <List component="div" disablePadding key={index}>
-                  <ListItemButton sx={{ pl: 4 }}>
-                    <ListItemText primary={car} />
+                  <ListItemButton
+                    sx={{ pl: 4 }}
+                    onClick={() => navigateTakeCar(car.path)}
+                  >
+                    <ListItemText primary={car.kind} />
                   </ListItemButton>
                 </List>
               );
