@@ -80,8 +80,6 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-start",
 }));
 
-console.log({ DrawerHeader });
-
 export const Header = () => {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
@@ -173,7 +171,7 @@ export const Header = () => {
             <ListItemIcon>
               <DirectionsCarIcon />
             </ListItemIcon>
-            <ListItemText primary="車種選択" />
+            <ListItemText primary="車種タイプ選択" />
             {carTypeOpen ? <ExpandLess /> : <ExpandMore />}
           </ListItemButton>
           <Collapse in={carTypeOpen} timeout="auto" unmountOnExit>

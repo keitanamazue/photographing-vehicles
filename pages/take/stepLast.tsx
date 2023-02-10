@@ -114,7 +114,7 @@ export default function stepLast() {
           handleConfirmOpen={handleConfirmOpen}
           handleConfirmClose={handleConfirmClose}
           confirmOpen={confirmOpen}
-          text="車種選択して撮り直す"
+          text="車種タイプ選択して撮り直す"
           mText="戻ると撮影した写真は破棄されます。よろしいですか？"
           bLink="/take/selectCar"
         />

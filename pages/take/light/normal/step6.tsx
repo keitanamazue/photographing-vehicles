@@ -84,6 +84,7 @@ export default function step6() {
           height: "45%",
           margin: "0 auto",
           opacity: "0.6",
+          filter: "sepia(300%) hue-rotate(150deg) saturate(450%)",
         }}
       />
       <button
