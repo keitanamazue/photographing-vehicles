@@ -1,6 +1,6 @@
 import React from "react";
 
-export const Guide = (props: { path: string }) => {
+export default function Guide(props: { path: string }) {
   const { path } = props;
   return (
     <div
@@ -21,4 +21,4 @@ export const Guide = (props: { path: string }) => {
       }}
     />
   );
-};
+}
