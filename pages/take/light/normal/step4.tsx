@@ -3,6 +3,7 @@ import { useRouter } from "next/router";
 import React, { useState, useRef } from "react";
 import { Camera } from "react-camera-pro";
 import { Header } from "../../../../components/Header";
+import { Guide } from "../components/Guide";
 
 export default function step4() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -68,23 +69,7 @@ export default function step4() {
           ガイドの中に車を収めて撮影してください
         </p>
       </div>
-      <div
-        style={{
-          position: "absolute",
-          top: "50%",
-          left: "50%",
-          transform: "translateY(-50%) translateX(-50%) rotate(90deg)",
-          backgroundImage: "url(/light/normal/light_04.png)",
-          backgroundPosition: "center",
-          backgroundSize: "cover",
-          backgroundRepeat: "no-repeat",
-          width: "100%",
-          height: "45%",
-          margin: "0 auto",
-          opacity: "0.6",
-          filter: "sepia(300%) hue-rotate(150deg) saturate(450%)",
-        }}
-      />
+      <Guide path="/light/normal/light_04.png" />
       <button
         style={{
           position: "absolute",
