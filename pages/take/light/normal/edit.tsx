@@ -2,8 +2,8 @@
 import { useRouter } from "next/router";
 import React, { useState, useRef } from "react";
 import { Camera } from "react-camera-pro";
+import { Guide } from "../../../../components/Guide";
 import { Header } from "../../../../components/Header";
-import { Guide } from "../components/Guide";
 
 export default function Edit() {
   // eslint-disable-next-line react-hooks/rules-of-hooks

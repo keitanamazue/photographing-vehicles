@@ -2,32 +2,41 @@
 import { useRouter } from "next/router";
 import React, { useState, useRef } from "react";
 import { Camera } from "react-camera-pro";
-import { Header } from "../../../../components/Header";
-import { Guide } from "../../../../components/Guide";
+import { Header } from "../Header";
+import { Guide } from "../../pages/take/light/components/Guide";
 
-export default function step7() {
+export default function Edit() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
-
   const router = useRouter();
 
-  const NextTake = () => {
+  const editDone = () => {
     if (!camera.current) return;
     /* @ts-ignore */
     const image: string = camera.current.takePhoto();
+    const newImageList = router.query;
+    Object.keys(router.query).forEach((key) => {
+      if (key === router.query.editIndex) {
+        newImageList[key] = image;
+        return;
+      }
+      newImageList[key] = router.query[key];
+    });
     router.push({
-      pathname: "/take/light/normal/step8",
-      query: {
-        0: router.query[0],
-        1: router.query[1],
-        2: router.query[2],
-        3: router.query[3],
-        4: router.query[4],
-        5: router.query[5],
-        6: image,
-      },
+      pathname: "/take/light/normal/stepLast",
+      query: { ...newImageList },
     });
   };
+
+  const editIndex2NumberAndPlus1 = Number(router.query.editIndex) + 1;
+  function changeDigit2DoubleDigit(index: number) {
+    /*一旦数値を文字列に変換し、長さを求める*/
+    return index.toString().length === 1 ? `0${index}` : index;
+  }
+
+  const formattedIndex = changeDigit2DoubleDigit(editIndex2NumberAndPlus1);
+
+  const editImageFrame = `/light/normal/light_${formattedIndex}.png`;
 
   return (
     <div>
@@ -60,7 +69,7 @@ export default function step7() {
             marginBottom: "3px",
           }}
         >
-          7枚目
+          {editIndex2NumberAndPlus1}枚目
         </p>
         <p
           style={{
@@ -72,7 +81,7 @@ export default function step7() {
           ガイドの中に車を収めて撮影してください
         </p>
       </div>
-      <Guide path="/light/normal/light_07.png" />
+      <Guide path={editImageFrame} />
       <button
         style={{
           position: "absolute",
@@ -82,7 +91,7 @@ export default function step7() {
           width: "70px",
           height: "70px",
         }}
-        onClick={() => NextTake()}
+        onClick={() => editDone()}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

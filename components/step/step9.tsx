@@ -2,10 +2,10 @@
 import { useRouter } from "next/router";
 import React, { useState, useRef } from "react";
 import { Camera } from "react-camera-pro";
-import { Header } from "../../../../components/Header";
-import { Guide } from "../../../../components/Guide";
+import { Header } from "../Header";
+import { Guide } from "../../pages/take/light/components/Guide";
 
-export default function step7() {
+export default function step9() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
 
@@ -16,7 +16,7 @@ export default function step7() {
     /* @ts-ignore */
     const image: string = camera.current.takePhoto();
     router.push({
-      pathname: "/take/light/normal/step8",
+      pathname: "/take/light/normal/step10",
       query: {
         0: router.query[0],
         1: router.query[1],
@@ -24,7 +24,9 @@ export default function step7() {
         3: router.query[3],
         4: router.query[4],
         5: router.query[5],
-        6: image,
+        6: router.query[6],
+        7: router.query[7],
+        8: image,
       },
     });
   };
@@ -60,7 +62,7 @@ export default function step7() {
             marginBottom: "3px",
           }}
         >
-          7枚目
+          9枚目
         </p>
         <p
           style={{
@@ -72,7 +74,7 @@ export default function step7() {
           ガイドの中に車を収めて撮影してください
         </p>
       </div>
-      <Guide path="/light/normal/light_07.png" />
+      <Guide path="/light/normal/light_09.png" />
       <button
         style={{
           position: "absolute",

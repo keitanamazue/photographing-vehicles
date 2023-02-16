@@ -2,8 +2,8 @@
 import { useRouter } from "next/router";
 import React, { useState, useRef } from "react";
 import { Camera } from "react-camera-pro";
-import { Header } from "../../../../components/Header";
-import { Guide } from "../../../../components/Guide";
+import { Header } from "../Header";
+import { Guide } from "../../pages/take/light/components/Guide";
 
 export default function step7() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
