@@ -11,7 +11,6 @@ export const GuideContainer = () => {
   const router = useRouter();
   const stepNumber = id;
   const nextStepNumber = id + 1;
-  //   /take/light/normal/step/1
   const pathArray = path.split("/"); //スラッシュで分割して配列をつくる
   const pathWithoutStep = pathArray.slice(0, 4);
   const pathWithStep = pathArray.slice(0, 5).join("/");
@@ -67,6 +66,27 @@ export const GuideContainer = () => {
       />
       <div
         style={{
+          position: "absolute",
+          top: "50%",
+          right: "-46%",
+          transform: "translateY(-50%) rotate(90deg)",
+          background: "#ffbcbc",
+        }}
+      >
+        <p
+          style={{
+            color: "#ff2d2d",
+            padding: "6px",
+            fontWeight: "bold",
+            width: "fit-content",
+            fontSize: "12px",
+          }}
+        >
+          ナンバープレートを白い紙などで隠した写真をアップロードしてください
+        </p>
+      </div>
+      <div
+        style={{
           display: "flex",
           flexDirection: "column",
           position: "absolute",
@@ -96,7 +116,6 @@ export const GuideContainer = () => {
         </p>
       </div>
       <Guide path={pageGuideImage} />
-      {/* <Guide path={`/light/normal/light_0${formattedStepNumber}.png`} /> */}
       <button
         style={{
           position: "absolute",
@@ -111,7 +130,7 @@ export const GuideContainer = () => {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           style={{
-            zIndex: 100,
+            zIndex: 10,
             position: "absolute",
             left: "50%",
             transform: "translateY(-50%) translateX(-50%)",

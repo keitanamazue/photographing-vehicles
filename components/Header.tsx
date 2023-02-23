@@ -28,6 +28,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
 import { open } from "fs";
 import router from "next/router";
+import Link from "next/link";
 
 const drawerWidth = 240;
 
@@ -47,27 +48,6 @@ const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })<{
       duration: theme.transitions.duration.enteringScreen,
     }),
     marginRight: 0,
-  }),
-}));
-
-interface AppBarProps extends MuiAppBarProps {
-  open?: boolean;
-}
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})<AppBarProps>(({ theme, open }) => ({
-  transition: theme.transitions.create(["margin", "width"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["margin", "width"], {
-      easing: theme.transitions.easing.easeOut,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    marginRight: drawerWidth,
   }),
 }));
 
@@ -116,80 +96,25 @@ export const Header = () => {
   ];
 
   return (
-    <Box>
-      <CssBaseline />
-      <Box
-        sx={{
-          position: "absolute",
-          zIndex: 100,
-          bottom: "20px",
-          right: "0",
-          transform: "rotate(90deg)",
-        }}
-      >
-        <Toolbar sx={{ display: "flex", justifyContent: "flex-end" }}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="end"
-            onClick={handleDrawerOpen}
-            sx={{ ...(open && { display: "none" }) }}
-          >
-            <img
-              src="/option.png"
-              style={{ width: "50px", height: "50px" }}
-              alt="menu"
-            />
-          </IconButton>
-        </Toolbar>
-      </Box>
+    <div style={{ overflow: "scroll", position: "absolute", zIndex: 1000 }}>
+      <input type="checkbox" id="drawer-checkbox" className="menu-checkbox" />
+      <label htmlFor="drawer-checkbox" className="drawer-icon">
+        <span></span>
+      </label>
 
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          "& .MuiDrawer-paper": {
-            width: drawerWidth,
-          },
-        }}
-        variant="persistent"
-        anchor="right"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === "rtl" ? (
-              <ChevronLeftIcon />
-            ) : (
-              <ChevronRightIcon />
-            )}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List sx={{ width: "100%", maxWidth: 360 }}>
-          <ListItemButton onClick={handleOpenCarType}>
-            <ListItemIcon>
-              <DirectionsCarIcon />
-            </ListItemIcon>
-            <ListItemText primary="車種タイプ選択" />
-            {carTypeOpen ? <ExpandLess /> : <ExpandMore />}
-          </ListItemButton>
-          <Collapse in={carTypeOpen} timeout="auto" unmountOnExit>
-            {cars.map((car, index) => {
-              return (
-                <List component="div" disablePadding key={index}>
-                  <ListItemButton
-                    sx={{ pl: 4 }}
-                    onClick={() => navigateTakeCar(car.path)}
-                  >
-                    <ListItemText primary={car.kind} />
-                  </ListItemButton>
-                </List>
-              );
-            })}
-          </Collapse>
-        </List>
-      </Drawer>
-    </Box>
+      <div className="drawer-menu">
+        <ul className="drawer-menu-list">
+          {cars.map((car, index) => {
+            return (
+              <li className="drawer-menu-item" key={index}>
+                <Link href={car.path} className="drawer-menu-item-link">
+                  {car.kind}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
   );
 };
