@@ -68,7 +68,7 @@ export const GuideContainer = () => {
         style={{
           position: "absolute",
           top: "50%",
-          right: "-46%",
+          right: "-40%",
           transform: "translateY(-50%) rotate(90deg)",
           background: "#ffbcbc",
         }}
