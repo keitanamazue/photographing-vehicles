@@ -1,33 +1,56 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter } from "next/router";
-import React, { useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "react-camera-pro";
-import { Header } from "../../../../components/Header";
-import { Guide } from "../../../../components/Guide";
+import { Guide } from "./Guide";
+import { Header } from "./Header";
+import { ImageList } from "./ImageList";
 
-export default function step7() {
+export const GuideContainer = () => {
+  const [path, setPath] = useState("");
+  const [id, setId] = useState(0);
+  const router = useRouter();
+  const stepNumber = id;
+  const nextStepNumber = id + 1;
+  //   /take/light/normal/step/1
+  const pathArray = path.split("/"); //スラッシュで分割して配列をつくる
+  const pathWithoutStep = pathArray.slice(0, 4);
+  const pathWithStep = pathArray.slice(0, 5).join("/");
+  const nextPathname = pathWithoutStep.join("/") + "/step/" + nextStepNumber; //スラッシュで結合して文字列にする
+
+  const pathWithoutTakeAndStep = pathArray.slice(2, 4);
+  const pathWithoutStepDirectory = pathWithoutTakeAndStep.join("/");
+
+  const formattedStepNumber =
+    stepNumber.toString().length === 1 ? `0${stepNumber}` : stepNumber;
+  const pageGuideImage = `/${pathWithoutStepDirectory}/${formattedStepNumber}.png`;
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
-
-  const router = useRouter();
 
   const NextTake = () => {
     if (!camera.current) return;
     /* @ts-ignore */
     const image: string = camera.current.takePhoto();
-    router.push({
-      pathname: "/take/light/normal/step8",
-      query: {
-        0: router.query[0],
-        1: router.query[1],
-        2: router.query[2],
-        3: router.query[3],
-        4: router.query[4],
-        5: router.query[5],
-        6: image,
-      },
+    const imageList = ImageList({ image, router });
+
+    Object.keys(imageList).filter((key) => {
+      if (key === stepNumber.toString()) {
+        router.push({
+          pathname:
+            stepNumber === 12 ? `${pathWithStep}/stepLast/` : nextPathname,
+          query: imageList[stepNumber],
+        });
+      }
     });
   };
+
+  useEffect(() => {
+    // idがqueryで利用可能になったら処理される
+    if (router.asPath !== router.route) {
+      setPath(router.asPath);
+      setId(Number(router.query.stepId));
+    }
+  }, [router]);
 
   return (
     <div>
@@ -60,7 +83,7 @@ export default function step7() {
             marginBottom: "3px",
           }}
         >
-          7枚目
+          {stepNumber}枚目
         </p>
         <p
           style={{
@@ -72,7 +95,8 @@ export default function step7() {
           ガイドの中に車を収めて撮影してください
         </p>
       </div>
-      <Guide path="/light/normal/light_07.png" />
+      <Guide path={pageGuideImage} />
+      {/* <Guide path={`/light/normal/light_0${formattedStepNumber}.png`} /> */}
       <button
         style={{
           position: "absolute",
@@ -100,4 +124,4 @@ export default function step7() {
       </button>
     </div>
   );
-}
+};

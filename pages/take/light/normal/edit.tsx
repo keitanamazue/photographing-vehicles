@@ -1,7 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter } from "next/router";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { Camera } from "react-camera-pro";
+import style from "styled-jsx/style";
 import { Guide } from "../../../../components/Guide";
 import { Header } from "../../../../components/Header";
 
@@ -9,6 +10,12 @@ export default function Edit() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
   const router = useRouter();
+  const [path, setPath] = useState("");
+  const pathName = path.split("/");
+  const pathArray = path.split("/"); //スラッシュで分割して配列をつくる
+  const pathWithoutTakeAndStep = pathArray.slice(2, 4);
+  const pathWithoutStepDirectory = pathWithoutTakeAndStep.join("/");
+  const pathDirectory = pathName.slice(1, 4).join("/");
 
   const editDone = () => {
     if (!camera.current) return;
@@ -23,7 +30,7 @@ export default function Edit() {
       newImageList[key] = router.query[key];
     });
     router.push({
-      pathname: "/take/light/normal/stepLast",
+      pathname: `/${pathDirectory}/step/stepLast`,
       query: { ...newImageList },
     });
   };
@@ -33,10 +40,15 @@ export default function Edit() {
     /*一旦数値を文字列に変換し、長さを求める*/
     return index.toString().length === 1 ? `0${index}` : index;
   }
-
   const formattedIndex = changeDigit2DoubleDigit(editIndex2NumberAndPlus1);
+  const editImageFrame = `/${pathWithoutStepDirectory}/${formattedIndex}.png`;
 
-  const editImageFrame = `/light/normal/light_${formattedIndex}.png`;
+  useEffect(() => {
+    // idがqueryで利用可能になったら処理される
+    if (router.asPath !== router.route) {
+      setPath(router.asPath);
+    }
+  }, [router]);
 
   return (
     <div>
