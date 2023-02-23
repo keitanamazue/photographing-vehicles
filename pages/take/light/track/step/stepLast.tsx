@@ -1,16 +1,19 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box, Button, Fab, Typography } from "@mui/material";
 import { useRouter } from "next/router";
-import SendButton from "../../../../components/SendButton";
-import { ImageList } from "../../../../utils/utils";
-import BackButton from "../../../../components/BackButton";
+import SendButton from "../../../../../components/SendButton";
+import { ImageList } from "../../../../../utils/utils";
+import BackButton from "../../../../../components/BackButton";
 
 export default function stepLast() {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
+  const [path, setPath] = useState("");
+  const pathName = path.split("/");
+  const pathDirectory = pathName.slice(1, 4).join("/");
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -28,7 +31,7 @@ export default function stepLast() {
 
   const editImage = (index: number) => {
     router.push({
-      pathname: "/take/light/highRoof/edit",
+      pathname: `/${pathDirectory}/edit`,
       query: {
         0: router.query[0],
         1: router.query[1],
@@ -64,11 +67,12 @@ export default function stepLast() {
     12: router.query[12] as string,
   };
 
-  // const imageList: ImageList = {
-  //   1: "https://picsum.photos/536/354",
-  //   2: "https://picsum.photos/536/354",
-  //   3: "https://picsum.photos/536/354",
-  // };
+  useEffect(() => {
+    // idがqueryで利用可能になったら処理される
+    if (router.asPath !== router.route) {
+      setPath(router.asPath);
+    }
+  }, [router]);
 
   return (
     <Box mt={2}>
