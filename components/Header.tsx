@@ -6,6 +6,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import { ExpandLess, ExpandMore } from "@mui/icons-material";
 import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import { Box } from "@mui/system";
+import Image from "next/image";
 
 export const Header = () => {
   const [carTypeOpen, setCarTypeOpen] = React.useState(false);
@@ -37,7 +38,7 @@ export const Header = () => {
   ];
 
   return (
-    <div style={{ overflow: "scroll", position: "absolute", zIndex: 1000 }}>
+    <div style={{ position: "absolute", zIndex: 1000 }}>
       <input type="checkbox" id="drawer-checkbox" className="menu-checkbox" />
       <label htmlFor="drawer-checkbox" className="drawer-icon">
         <span></span>
