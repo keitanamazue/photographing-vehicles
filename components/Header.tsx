@@ -45,7 +45,7 @@ export const Header = () => {
       </label>
 
       <div className="drawer-menu">
-        <ul className="drawer-menu-list">
+        <ul className="drawer-menu-list" style={{ left: "-20px" }}>
           <ListItemButton
             onClick={toggle}
             style={{
@@ -57,10 +57,24 @@ export const Header = () => {
             <ListItemIcon>
               <DirectionsCarIcon />
             </ListItemIcon>
-            <ListItemText primary="車種選択" />
-            {state ? <ExpandLess /> : <ExpandMore />}
+            <ListItemText
+              primary="車種タイプ選択"
+              sx={{
+                whiteSpace: "nowrap",
+              }}
+            />
+            <Box sx={{ position: "absolute", right: -24, top: 12 }}>
+              {state ? <ExpandLess /> : <ExpandMore />}
+            </Box>
           </ListItemButton>
-          <Box mt={6}>
+          <Box
+            mt={6}
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "baseline",
+            }}
+          >
             {state &&
               cars.map((car, index) => {
                 return (
