@@ -83,8 +83,8 @@ export const GuideContainer = () => {
         alignItems="center"
         sx={{
           position: "absolute",
-          top: "36%",
-          right: "-70%",
+          top: "44%",
+          right: "-60%",
           transform: "rotate(90deg)",
         }}
       >
@@ -110,10 +110,10 @@ export const GuideContainer = () => {
           <p
             style={{
               color: "#ff2d2d",
-              padding: "6px",
+              padding: "4px",
               fontWeight: "bold",
               width: "fit-content",
-              fontSize: "12px",
+              fontSize: "10px",
               whiteSpace: "nowrap",
             }}
           >
