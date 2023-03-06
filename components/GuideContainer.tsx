@@ -7,6 +7,7 @@ import { Camera } from "react-camera-pro";
 import { Guide } from "./Guide";
 import { Header } from "./Header";
 import { ImageList } from "./ImageList";
+import imageCompression from "browser-image-compression";
 
 export const GuideContainer = () => {
   const [path, setPath] = useState("");
@@ -29,32 +30,52 @@ export const GuideContainer = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
 
-  const NextTake = () => {
+  const NextTake = async () => {
     if (!camera.current) return;
     /* @ts-ignore */
     const image: string = camera.current.takePhoto();
 
     //画像をbase64からblobに変換する
-    // // base64のデコード
-    // var bin = atob(image.replace(/^.*,/, ""));
-    // // バイナリデータ化
-    // var buffer = new Uint8Array(bin.length);
-    // for (var i = 0; i < bin.length; i++) {
-    //   buffer[i] = bin.charCodeAt(i);
-    // }
-    // // ファイルオブジェクト生成(この例ではjpegファイル)
-    // console.log(new File([buffer.buffer], "aaaaaaa", { type: "image/jpeg" }));
-
-    const imageList = ImageList({ image, router });
-    Object.keys(imageList).filter((key) => {
-      if (key === stepNumber.toString()) {
-        router.push({
-          pathname:
-            stepNumber === 11 ? `${pathWithStep}/stepLast/` : nextPathname,
-          query: imageList[stepNumber],
-        });
-      }
+    // base64のデコード
+    var bin = atob(image.replace(/^.*,/, ""));
+    // バイナリデータ化
+    var buffer = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) {
+      buffer[i] = bin.charCodeAt(i);
+    }
+    // ファイルオブジェクト生成(この例ではjpegファイル)
+    const imageFile = new File([buffer.buffer], "image", {
+      type: "image/jpg",
     });
+
+    const options = {
+      maxSizeMB: 0.1,
+      maxWidth: 1280,
+      maxHeight: 720,
+      useWebWorker: true,
+    };
+
+    try {
+      const compressedFile = await imageCompression(imageFile, options);
+
+      const compressedBase64 = await imageCompression.getDataUrlFromFile(
+        compressedFile
+      );
+
+      const imageList = ImageList({ image: compressedBase64, router });
+
+      Object.keys(imageList).filter((key) => {
+        if (key === stepNumber.toString()) {
+          router.push({
+            pathname:
+              stepNumber === 11 ? `${pathWithStep}/stepLast/` : nextPathname,
+            query: imageList[stepNumber],
+          });
+        }
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
