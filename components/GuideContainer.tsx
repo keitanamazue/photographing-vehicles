@@ -69,7 +69,7 @@ export const GuideContainer = () => {
           router.push({
             pathname:
               stepNumber === 11 ? `${pathWithStep}/stepLast/` : nextPathname,
-            query: imageList[stepNumber],
+            query: imageList[stepNumber] as any,
           });
         }
       });
