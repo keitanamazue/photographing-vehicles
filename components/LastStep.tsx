@@ -2,13 +2,11 @@
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Unstable_Grid2";
 import { Box, Button, Fab, Typography } from "@mui/material";
-import { useRouter } from "next/router";
-import { ImageList } from "../utils/utils";
 import BackButton from "./BackButton";
 import SendButton from "./SendButton";
 
-export default function LastStep(props: { data: any }) {
-  const { data } = props;
+export default function LastStep(props: { data: any; setActiveStep: any }) {
+  const { data, setActiveStep } = props;
   const [open, setOpen] = useState(false);
   const [confirmOpen, setConfirmOpen] = useState(false);
 
@@ -26,22 +24,20 @@ export default function LastStep(props: { data: any }) {
     setConfirmOpen(false);
   };
 
-  const imageList = {
-    ...data,
+  const editImage = (index: number) => {
+    setActiveStep(index);
   };
 
   return (
     <Box mt={2}>
       <Grid container columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-        {Object.keys(imageList).map((key: number | string, index) => {
+        {Object.keys(data).map((key: number | string, index) => {
           return (
             <Grid xs={6} sm={3} md={3} key={index}>
               <Box sx={{ position: "relative" }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  src={
-                    imageList[key as keyof typeof imageList].compressedBase64
-                  }
+                  src={data[key as keyof typeof data]}
                   alt="car"
                   style={{
                     width: "100%",
@@ -76,7 +72,13 @@ export default function LastStep(props: { data: any }) {
                     zIndex: 100,
                   }}
                 >
-                  <Button variant="contained" size="small" onClick={() => {}}>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    onClick={() => {
+                      editImage(index);
+                    }}
+                  >
                     再撮影
                   </Button>
                 </Box>

@@ -1,27 +1,34 @@
 import { Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import router, { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "react-camera-pro";
-import { Guide } from "./Guide";
 import { Header } from "./Header";
-import { ImageList } from "./ImageList";
 import imageCompression from "browser-image-compression";
-import path from "path";
-import style from "styled-jsx/style";
+import {
+  Data,
+  finalConfirmationPageNumber,
+} from "../pages/take/light/normal/step";
+import { Guide } from "./Guide";
+import { useRouter } from "next/router";
 
-export const GuideContainer = (props: { setData: any; setActiveStep: any }) => {
-  const { setData, setActiveStep } = props;
+export const GuideContainer = (props: {
+  data: Data[];
+  setData: React.Dispatch<React.SetStateAction<Data[]>>;
+  activeStep: number;
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+  underFinalConfirmation: boolean;
+}) => {
+  const { data, setData, activeStep, setActiveStep, underFinalConfirmation } =
+    props;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
 
-  const NextTake = async () => {
+  const handleTake = async () => {
     if (!camera.current) return;
     /* @ts-ignore */
     const image: string = camera.current.takePhoto();
-
     //画像をbase64からblobに変換する
     // base64のデコード
     var bin = atob(image.replace(/^.*,/, ""));
@@ -41,33 +48,49 @@ export const GuideContainer = (props: { setData: any; setActiveStep: any }) => {
       maxHeight: 720,
       useWebWorker: true,
     };
-
     try {
       const compressedFile = await imageCompression(imageFile, options);
       const compressedBase64 = await imageCompression.getDataUrlFromFile(
         compressedFile
       );
-      setData((prev: any) => {
-        return [
-          ...prev,
-          {
-            compressedBase64,
-          },
-        ];
-      });
-      setActiveStep((prev: number) => prev + 1);
+      underFinalConfirmation
+        ? await editDone(compressedBase64)
+        : await nextStep(compressedBase64);
     } catch (error) {
       console.log(error);
     }
   };
 
-  // useEffect(() => {
-  //   // idがqueryで利用可能になったら処理される
-  //   if (router.asPath !== router.route) {
-  //     setPath(router.asPath);
-  //     setId(Number(router.query.stepId));
-  //   }
-  // }, [router]);
+  const nextStep = async (compressedBase64: string) => {
+    setData((prev: any) => {
+      return [...prev, compressedBase64];
+    });
+    setActiveStep((prev: number) => prev + 1);
+  };
+
+  const editDone = (compressedBase64: string) => {
+    data.forEach((value: Data, index: number) => {
+      console.log(index + 1 === activeStep + 1);
+      if (index + 1 === activeStep + 1) {
+        data[index] = compressedBase64;
+        return;
+      }
+      value = value;
+      return;
+    });
+    setData(data);
+    setActiveStep(finalConfirmationPageNumber);
+  };
+
+  const router = useRouter();
+  const path = router.route;
+  const pathArray = path.split("/"); //スラッシュで分割して配列をつくる
+  const pathWithoutTakeAndStep = pathArray.slice(2, 4);
+  const pathWithoutStepDirectory = pathWithoutTakeAndStep.join("/");
+  // /take/light/normal/step
+  const formattedStepNumber =
+    activeStep.toString().length === 1 ? `0${activeStep + 1}` : activeStep + 1;
+  const pageGuideImage = `/${pathWithoutStepDirectory}/${formattedStepNumber}.png`;
 
   return (
     <div>
@@ -144,7 +167,7 @@ export const GuideContainer = (props: { setData: any; setActiveStep: any }) => {
             marginBottom: "3px",
           }}
         >
-          1枚目
+          {activeStep + 1}枚目
         </p>
         <p
           style={{
@@ -156,7 +179,7 @@ export const GuideContainer = (props: { setData: any; setActiveStep: any }) => {
           ガイドの中に車を収めて撮影してください
         </p>
       </div>
-      {/* <Guide path={pageGuideImage} /> */}
+      <Guide path={pageGuideImage} />
       <button
         style={{
           position: "absolute",
@@ -166,7 +189,7 @@ export const GuideContainer = (props: { setData: any; setActiveStep: any }) => {
           width: "70px",
           height: "70px",
         }}
-        onClick={() => NextTake()}
+        onClick={() => handleTake()}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img

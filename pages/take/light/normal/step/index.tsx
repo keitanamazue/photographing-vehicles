@@ -2,11 +2,16 @@ import React, { useEffect, useState } from "react";
 import { GuideContainer } from "../../../../../components/GuideContainer";
 import LastStep from "../../../../../components/LastStep";
 
+export const finalConfirmationPageNumber = 12;
+
+export type Data = {
+  [key: number]: string;
+};
+
 const index = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState<Data[]>([]);
   const [activeStep, setActiveStep] = useState(0);
   const [underFinalConfirmation, setUnderFinalConfirmation] = useState(false);
-  const finalConfirmationPageNumber = 2;
 
   useEffect(() => {
     if (activeStep === finalConfirmationPageNumber) {
@@ -14,22 +19,116 @@ const index = () => {
     }
   }, [activeStep]);
 
-  console.log({ data });
-
   const pages = {
-    0: <GuideContainer setData={setData} setActiveStep={setActiveStep} />,
-    1: <GuideContainer setData={setData} setActiveStep={setActiveStep} />,
-    2: <GuideContainer setData={setData} setActiveStep={setActiveStep} />,
-    3: <GuideContainer setData={setData} setActiveStep={setActiveStep} />,
-    4: <GuideContainer setData={setData} setActiveStep={setActiveStep} />,
-    5: <GuideContainer setData={setData} setActiveStep={setActiveStep} />,
-    6: <GuideContainer setData={setData} setActiveStep={setActiveStep} />,
-    7: <GuideContainer setData={setData} setActiveStep={setActiveStep} />,
-    8: <GuideContainer setData={setData} setActiveStep={setActiveStep} />,
-    9: <GuideContainer setData={setData} setActiveStep={setActiveStep} />,
-    10: <GuideContainer setData={setData} setActiveStep={setActiveStep} />,
-    11: <GuideContainer setData={setData} setActiveStep={setActiveStep} />,
-    12: <LastStep data={data} />,
+    0: (
+      <GuideContainer
+        data={data}
+        setData={setData}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        underFinalConfirmation={underFinalConfirmation}
+      />
+    ),
+    1: (
+      <GuideContainer
+        data={data}
+        setData={setData}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        underFinalConfirmation={underFinalConfirmation}
+      />
+    ),
+    2: (
+      <GuideContainer
+        data={data}
+        setData={setData}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        underFinalConfirmation={underFinalConfirmation}
+      />
+    ),
+    3: (
+      <GuideContainer
+        data={data}
+        setData={setData}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        underFinalConfirmation={underFinalConfirmation}
+      />
+    ),
+    4: (
+      <GuideContainer
+        data={data}
+        setData={setData}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        underFinalConfirmation={underFinalConfirmation}
+      />
+    ),
+    5: (
+      <GuideContainer
+        data={data}
+        setData={setData}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        underFinalConfirmation={underFinalConfirmation}
+      />
+    ),
+    6: (
+      <GuideContainer
+        data={data}
+        setData={setData}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        underFinalConfirmation={underFinalConfirmation}
+      />
+    ),
+    7: (
+      <GuideContainer
+        data={data}
+        setData={setData}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        underFinalConfirmation={underFinalConfirmation}
+      />
+    ),
+    8: (
+      <GuideContainer
+        data={data}
+        setData={setData}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        underFinalConfirmation={underFinalConfirmation}
+      />
+    ),
+    9: (
+      <GuideContainer
+        data={data}
+        setData={setData}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        underFinalConfirmation={underFinalConfirmation}
+      />
+    ),
+    10: (
+      <GuideContainer
+        data={data}
+        setData={setData}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        underFinalConfirmation={underFinalConfirmation}
+      />
+    ),
+    11: (
+      <GuideContainer
+        data={data}
+        setData={setData}
+        activeStep={activeStep}
+        setActiveStep={setActiveStep}
+        underFinalConfirmation={underFinalConfirmation}
+      />
+    ),
+    12: <LastStep data={data} setActiveStep={setActiveStep} />,
   };
   return pages[activeStep as keyof typeof pages];
 };
