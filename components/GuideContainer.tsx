@@ -1,40 +1,36 @@
 import { Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "react-camera-pro";
-import { Guide } from "./Guide";
 import { Header } from "./Header";
-import { ImageList } from "./ImageList";
 import imageCompression from "browser-image-compression";
+import {
+  Data,
+  finalConfirmationPageNumber,
+} from "../pages/take/light/normal/step";
+import { Guide } from "./Guide";
+import { useRouter } from "next/router";
 
-export const GuideContainer = () => {
-  const [path, setPath] = useState("");
-  const [id, setId] = useState(0);
-  const router = useRouter();
-  const stepNumber = id;
-  const nextStepNumber = id + 1;
-  const pathArray = path.split("/"); //スラッシュで分割して配列をつくる
-  const pathWithoutStep = pathArray.slice(0, 4);
-  const pathWithStep = pathArray.slice(0, 5).join("/");
-  const nextPathname = pathWithoutStep.join("/") + "/step/" + nextStepNumber; //スラッシュで結合して文字列にする
+export const GuideContainer = (props: {
+  data: Data[];
+  setData: React.Dispatch<React.SetStateAction<Data[]>>;
+  activeStep: number;
+  setActiveStep: React.Dispatch<React.SetStateAction<number>>;
+  underFinalConfirmation: boolean;
+}) => {
+  const { data, setData, activeStep, setActiveStep, underFinalConfirmation } =
+    props;
 
-  const pathWithoutTakeAndStep = pathArray.slice(2, 4);
-  const pathWithoutStepDirectory = pathWithoutTakeAndStep.join("/");
-
-  const formattedStepNumber =
-    stepNumber.toString().length === 1 ? `0${stepNumber}` : stepNumber;
-  const pageGuideImage = `/${pathWithoutStepDirectory}/${formattedStepNumber}.png`;
+  const step = activeStep + 1;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
 
-  const NextTake = async () => {
+  const handleTake = async () => {
     if (!camera.current) return;
     /* @ts-ignore */
     const image: string = camera.current.takePhoto();
-
     //画像をbase64からblobに変換する
     // base64のデコード
     var bin = atob(image.replace(/^.*,/, ""));
@@ -49,42 +45,52 @@ export const GuideContainer = () => {
     });
 
     const options = {
-      maxSizeMB: 0.1,
+      maxSizeMB: 0.7,
       maxWidth: 1280,
       maxHeight: 720,
       useWebWorker: true,
     };
-
     try {
       const compressedFile = await imageCompression(imageFile, options);
-
       const compressedBase64 = await imageCompression.getDataUrlFromFile(
         compressedFile
       );
-
-      const imageList = ImageList({ image: compressedBase64, router });
-
-      Object.keys(imageList).filter((key) => {
-        if (key === stepNumber.toString()) {
-          router.push({
-            pathname:
-              stepNumber === 11 ? `${pathWithStep}/stepLast/` : nextPathname,
-            query: imageList[stepNumber] as any,
-          });
-        }
-      });
+      underFinalConfirmation
+        ? await editDone(compressedBase64)
+        : await nextStep(compressedBase64);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    // idがqueryで利用可能になったら処理される
-    if (router.asPath !== router.route) {
-      setPath(router.asPath);
-      setId(Number(router.query.stepId));
-    }
-  }, [router]);
+  const nextStep = async (compressedBase64: string) => {
+    setData((prev: any) => {
+      return [...prev, compressedBase64];
+    });
+    setActiveStep((prev: number) => prev + 1);
+  };
+
+  const editDone = (compressedBase64: string) => {
+    data.forEach((value: Data, index: number) => {
+      console.log(index + 1 === step);
+      if (index + 1 === step) {
+        data[index] = compressedBase64;
+        return;
+      }
+      value = value;
+      return;
+    });
+    setData(data);
+    setActiveStep(finalConfirmationPageNumber);
+  };
+
+  const router = useRouter();
+  const path = router.route;
+  const pathArray = path.split("/"); //スラッシュで分割して配列をつくる
+  const pathWithoutTakeAndStep = pathArray.slice(2, 4);
+  const pathWithoutStepDirectory = pathWithoutTakeAndStep.join("/");
+  const formattedStepNumber = step.toString().length === 1 ? `0${step}` : step;
+  const pageGuideImage = `/${pathWithoutStepDirectory}/${formattedStepNumber}.png`;
 
   return (
     <div>
@@ -161,7 +167,7 @@ export const GuideContainer = () => {
             marginBottom: "3px",
           }}
         >
-          {stepNumber}枚目
+          {step}枚目
         </p>
         <p
           style={{
@@ -183,7 +189,7 @@ export const GuideContainer = () => {
           width: "70px",
           height: "70px",
         }}
-        onClick={() => NextTake()}
+        onClick={() => handleTake()}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
