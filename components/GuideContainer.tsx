@@ -22,6 +22,8 @@ export const GuideContainer = (props: {
   const { data, setData, activeStep, setActiveStep, underFinalConfirmation } =
     props;
 
+  const step = activeStep + 1;
+
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
 
@@ -70,8 +72,8 @@ export const GuideContainer = (props: {
 
   const editDone = (compressedBase64: string) => {
     data.forEach((value: Data, index: number) => {
-      console.log(index + 1 === activeStep + 1);
-      if (index + 1 === activeStep + 1) {
+      console.log(index + 1 === step);
+      if (index + 1 === step) {
         data[index] = compressedBase64;
         return;
       }
@@ -87,9 +89,7 @@ export const GuideContainer = (props: {
   const pathArray = path.split("/"); //スラッシュで分割して配列をつくる
   const pathWithoutTakeAndStep = pathArray.slice(2, 4);
   const pathWithoutStepDirectory = pathWithoutTakeAndStep.join("/");
-  // /take/light/normal/step
-  const formattedStepNumber =
-    activeStep.toString().length === 1 ? `0${activeStep + 1}` : activeStep + 1;
+  const formattedStepNumber = step.toString().length === 1 ? `0${step}` : step;
   const pageGuideImage = `/${pathWithoutStepDirectory}/${formattedStepNumber}.png`;
 
   return (
@@ -167,7 +167,7 @@ export const GuideContainer = (props: {
             marginBottom: "3px",
           }}
         >
-          {activeStep + 1}枚目
+          {step}枚目
         </p>
         <p
           style={{

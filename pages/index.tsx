@@ -13,7 +13,7 @@ export default function Home() {
       }}
     >
       <Box>
-        <Link href="/take/selectCar" style={{ textDecoration: "none" }}>
+        <Link href="/selectCar" style={{ textDecoration: "none" }}>
           <Button variant="contained" color="primary" sx={{ width: "100%" }}>
             新しい車の撮影
           </Button>
