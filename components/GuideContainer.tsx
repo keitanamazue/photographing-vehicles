@@ -1,31 +1,18 @@
 import { Box } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/router";
+import router, { useRouter } from "next/router";
 import React, { useEffect, useRef, useState } from "react";
 import { Camera } from "react-camera-pro";
 import { Guide } from "./Guide";
 import { Header } from "./Header";
 import { ImageList } from "./ImageList";
 import imageCompression from "browser-image-compression";
+import path from "path";
+import style from "styled-jsx/style";
 
-export const GuideContainer = () => {
-  const [path, setPath] = useState("");
-  const [id, setId] = useState(0);
-  const router = useRouter();
-  const stepNumber = id;
-  const nextStepNumber = id + 1;
-  const pathArray = path.split("/"); //スラッシュで分割して配列をつくる
-  const pathWithoutStep = pathArray.slice(0, 4);
-  const pathWithStep = pathArray.slice(0, 5).join("/");
-  const nextPathname = pathWithoutStep.join("/") + "/step/" + nextStepNumber; //スラッシュで結合して文字列にする
-
-  const pathWithoutTakeAndStep = pathArray.slice(2, 4);
-  const pathWithoutStepDirectory = pathWithoutTakeAndStep.join("/");
-
-  const formattedStepNumber =
-    stepNumber.toString().length === 1 ? `0${stepNumber}` : stepNumber;
-  const pageGuideImage = `/${pathWithoutStepDirectory}/${formattedStepNumber}.png`;
+export const GuideContainer = (props: { setData: any; setActiveStep: any }) => {
+  const { setData, setActiveStep } = props;
 
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const camera = useRef(null);
@@ -49,7 +36,7 @@ export const GuideContainer = () => {
     });
 
     const options = {
-      maxSizeMB: 0.1,
+      maxSizeMB: 0.7,
       maxWidth: 1280,
       maxHeight: 720,
       useWebWorker: true,
@@ -57,34 +44,30 @@ export const GuideContainer = () => {
 
     try {
       const compressedFile = await imageCompression(imageFile, options);
-
       const compressedBase64 = await imageCompression.getDataUrlFromFile(
         compressedFile
       );
-
-      const imageList = ImageList({ image: compressedBase64, router });
-
-      Object.keys(imageList).filter((key) => {
-        if (key === stepNumber.toString()) {
-          router.push({
-            pathname:
-              stepNumber === 11 ? `${pathWithStep}/stepLast/` : nextPathname,
-            query: imageList[stepNumber] as any,
-          });
-        }
+      setData((prev: any) => {
+        return [
+          ...prev,
+          {
+            compressedBase64,
+          },
+        ];
       });
+      setActiveStep((prev: number) => prev + 1);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    // idがqueryで利用可能になったら処理される
-    if (router.asPath !== router.route) {
-      setPath(router.asPath);
-      setId(Number(router.query.stepId));
-    }
-  }, [router]);
+  // useEffect(() => {
+  //   // idがqueryで利用可能になったら処理される
+  //   if (router.asPath !== router.route) {
+  //     setPath(router.asPath);
+  //     setId(Number(router.query.stepId));
+  //   }
+  // }, [router]);
 
   return (
     <div>
@@ -161,7 +144,7 @@ export const GuideContainer = () => {
             marginBottom: "3px",
           }}
         >
-          {stepNumber}枚目
+          1枚目
         </p>
         <p
           style={{
@@ -173,7 +156,7 @@ export const GuideContainer = () => {
           ガイドの中に車を収めて撮影してください
         </p>
       </div>
-      <Guide path={pageGuideImage} />
+      {/* <Guide path={pageGuideImage} /> */}
       <button
         style={{
           position: "absolute",
